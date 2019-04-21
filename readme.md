@@ -19,7 +19,7 @@ npm install
 npm start
 ```
 
-You can work in `your-component`, the solution is in `my-component`.
+You can work in `your-clock`, the solution is in `my-clock`.
 
 ## Helpful links
 * [Component](https://stenciljs.com/docs/component)
