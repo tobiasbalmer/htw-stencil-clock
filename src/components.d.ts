@@ -5,30 +5,37 @@
  */
 
 
-import '@stencil/core';
-
-
+import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
+import { JSX } from '@stencil/core';
 
 
 export namespace Components {
-
   interface MyClock {}
-  interface MyClockAttributes extends StencilHTMLAttributes {}
-
   interface YourClock {}
-  interface YourClockAttributes extends StencilHTMLAttributes {}
 }
 
-declare global {
-  interface StencilElementInterfaces {
-    'MyClock': Components.MyClock;
-    'YourClock': Components.YourClock;
-  }
+declare namespace LocalJSX {
+  interface MyClock extends JSXBase.HTMLAttributes {}
+  interface YourClock extends JSXBase.HTMLAttributes {}
 
-  interface StencilIntrinsicElements {
-    'my-clock': Components.MyClockAttributes;
-    'your-clock': Components.YourClockAttributes;
+  interface IntrinsicElements {
+    'my-clock': MyClock;
+    'your-clock': YourClock;
   }
+}
+
+export { LocalJSX as JSX };
+
+
+declare module "@stencil/core" {
+  export namespace JSX {
+    interface IntrinsicElements extends LocalJSX.IntrinsicElements {}
+  }
+}
+
+
+declare global {
+
 
 
   interface HTMLMyClockElement extends Components.MyClock, HTMLStencilElement {}
@@ -44,22 +51,10 @@ declare global {
   };
 
   interface HTMLElementTagNameMap {
-    'my-clock': HTMLMyClockElement
-    'your-clock': HTMLYourClockElement
-  }
-
-  interface ElementTagNameMap {
     'my-clock': HTMLMyClockElement;
     'your-clock': HTMLYourClockElement;
   }
 
-
-  export namespace JSX {
-    export interface Element {}
-    export interface IntrinsicElements extends StencilIntrinsicElements {
-      [tagName: string]: any;
-    }
-  }
-  export interface HTMLAttributes extends StencilHTMLAttributes {}
-
+  interface ElementTagNameMap extends HTMLElementTagNameMap {}
 }
+
