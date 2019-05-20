@@ -9,20 +9,20 @@ export class MyClock {
 
   timer;
 
-  @State() time = Date.now();
+  @State() time = new Date().toLocaleTimeString();
 
   componentDidLoad() {
     this.timer = setInterval(() => {
-      this.time = Date.now();
-    }, 1000 * 1);
+      this.time = new Date().toLocaleTimeString();
+      console.log('test');
+    }, 1000);
   }
 
-  componentDidUnLoad() {
+  componentDidUnload() {
     clearInterval(this.timer);
   }
 
   render() {
-    const time = new Date(this.time).toLocaleTimeString();
-    return <div>It is {time}</div>;
+    return <div>It is {this.time}</div>;
   }
 }
